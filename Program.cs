@@ -1,5 +1,4 @@
 ﻿using EF_Core.BDContexto;
-using EF_Core.Entidades;
 
 namespace EF_Core
 {
@@ -7,24 +6,21 @@ namespace EF_Core
     {
         static void Main(string[] args)
         {
-            using (var contexto = new Contexto())
-            {
-                // Verifica se o banco foi criado, se não, cria
-                contexto.Database.EnsureCreated();
-            }
+            ExibirFilmes();
+        }
 
-            // Cria nova instância do contexto
+        /// <summary>
+        /// Método utilizado para exibição dos dados
+        /// </summary>
+        public static void ExibirFilmes()
+        {
             using (var bancoDeDados = new Contexto())
             {
-                // Rastreia qual será o processo de manipulação CRUD
-                bancoDeDados.Add(new Filme { Titulo = "Batman o Cavaleiro das Trevas", Ano = 2000 });
-                bancoDeDados.SaveChanges(); // Gera o SQL e insere os dados no banco
-
-                var filmes = bancoDeDados.Filmes.ToList(); // Converte a tabela em uma lista
+                var filmes = bancoDeDados.Filmes.ToList();
 
                 foreach (var filme in filmes)
                 {
-                    Console.WriteLine(filme.Titulo); // Percorre a lista e exibe os títulos
+                    Console.WriteLine($"{filme.Id}, {filme.Titulo}");
                 }
             }
         }
